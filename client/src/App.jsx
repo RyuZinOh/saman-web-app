@@ -1,23 +1,24 @@
-import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Signup from "./Signup";
+import React, { useState } from "react";
 import Login from "./Login";
+import Signup from "./Signup";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-function App() {
+const App = () => {
+  const [isLogin, setIsLogin] = useState(true);
+
+  const toggleForm = () => {
+    setIsLogin((prev) => !prev);
+  };
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="*"
-          element={<h2 className="text-center">Page Not Found</h2>}
-        />
-      </Routes>
-    </BrowserRouter>
+    <div className="container mt-5">
+      {isLogin ? (
+        <Login toggleForm={toggleForm} />
+      ) : (
+        <Signup toggleForm={toggleForm} />
+      )}
+    </div>
   );
-}
+};
 
 export default App;

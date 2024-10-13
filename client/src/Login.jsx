@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types"; // Import PropTypes
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const Login = () => {
+const Login = ({ toggleForm }) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -36,7 +37,7 @@ const Login = () => {
     if (Object.keys(validationErrors).length === 0) {
       setLoading(true);
       try {
-        const response = await fetch("http://localhost:3001/login", {
+        const response = await fetch("http://localhost:3001/login", { // Adjust this for production
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -87,9 +88,7 @@ const Login = () => {
                       </label>
                       <input
                         type="email"
-                        className={`form-control ${
-                          errors.email ? "is-invalid" : ""
-                        }`}
+                        className={`form-control ${errors.email ? "is-invalid" : ""}`}
                         id="email"
                         name="email"
                         value={formData.email}
@@ -110,9 +109,7 @@ const Login = () => {
                       </label>
                       <input
                         type="password"
-                        className={`form-control ${
-                          errors.password ? "is-invalid" : ""
-                        }`}
+                        className={`form-control ${errors.password ? "is-invalid" : ""}`}
                         id="password"
                         name="password"
                         value={formData.password}
@@ -124,9 +121,7 @@ const Login = () => {
                         }}
                       />
                       {errors.password && (
-                        <div className="invalid-feedback">
-                          {errors.password}
-                        </div>
+                        <div className="invalid-feedback">{errors.password}</div>
                       )}
                     </div>
                     <button
@@ -143,13 +138,14 @@ const Login = () => {
                     </button>
                   </form>
                   <p className="text-center mt-3" style={{ color: "#57008E" }}>
-                    Don't have an account?{" "}
-                    <a
-                      href="/signup"
+                    No account?{" "}
+                    <button
+                      className="btn btn-link"
+                      onClick={toggleForm} // Use toggleForm function to switch forms
                       style={{ color: "#57008E", fontWeight: "bold" }}
                     >
                       Register
-                    </a>
+                    </button>
                   </p>
                 </>
               )}
@@ -159,6 +155,11 @@ const Login = () => {
       </div>
     </div>
   );
+};
+
+// Add propTypes for validation
+Login.propTypes = {
+  toggleForm: PropTypes.func.isRequired,
 };
 
 export default Login;
