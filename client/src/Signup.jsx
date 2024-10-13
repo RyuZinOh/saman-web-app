@@ -7,7 +7,6 @@ const Signup = () => {
     email: "",
     password: "",
   });
-  
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -41,7 +40,7 @@ const Signup = () => {
     if (Object.keys(validationErrors).length === 0) {
       setLoading(true);
       try {
-        const response = await fetch("/api/register", { // Use relative path for production
+        const response = await fetch("http://localhost:3001/register", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -56,7 +55,6 @@ const Signup = () => {
           setErrors({ api: data.message || "Signup failed" });
         }
       } catch (error) {
-        console.error(error);
         setErrors({ api: "An error occurred, please try again." });
       } finally {
         setLoading(false);
@@ -74,17 +72,11 @@ const Signup = () => {
                 <h2 className="text-success text-center">Signup successful!</h2>
               ) : (
                 <>
-                  <h2 className="text-center mb-4" style={{ color: "#57008E" }}>
-                    Register
-                  </h2>
+                  <h2 className="text-center mb-4" style={{ color: "#57008E" }}>Register</h2>
                   <form onSubmit={handleSubmit}>
-                    {errors.api && (
-                      <div className="alert alert-danger">{errors.api}</div>
-                    )}
+                    {errors.api && <div className="alert alert-danger">{errors.api}</div>}
                     <div className="form-group mb-3">
-                      <label htmlFor="username" style={{ color: "#57008E" }}>
-                        Username
-                      </label>
+                      <label htmlFor="username" style={{ color: "#57008E" }}>Username</label>
                       <input
                         type="text"
                         className={`form-control ${errors.username ? "is-invalid" : ""}`}
@@ -94,14 +86,10 @@ const Signup = () => {
                         onChange={handleChange}
                         style={{ borderColor: "#57008E" }}
                       />
-                      {errors.username && (
-                        <div className="invalid-feedback">{errors.username}</div>
-                      )}
+                      {errors.username && <div className="invalid-feedback">{errors.username}</div>}
                     </div>
                     <div className="form-group mb-3">
-                      <label htmlFor="email" style={{ color: "#57008E" }}>
-                        Email
-                      </label>
+                      <label htmlFor="email" style={{ color: "#57008E" }}>Email</label>
                       <input
                         type="email"
                         className={`form-control ${errors.email ? "is-invalid" : ""}`}
@@ -111,14 +99,10 @@ const Signup = () => {
                         onChange={handleChange}
                         style={{ borderColor: "#57008E" }}
                       />
-                      {errors.email && (
-                        <div className="invalid-feedback">{errors.email}</div>
-                      )}
+                      {errors.email && <div className="invalid-feedback">{errors.email}</div>}
                     </div>
                     <div className="form-group mb-3">
-                      <label htmlFor="password" style={{ color: "#57008E" }}>
-                        Password
-                      </label>
+                      <label htmlFor="password" style={{ color: "#57008E" }}>Password</label>
                       <input
                         type="password"
                         className={`form-control ${errors.password ? "is-invalid" : ""}`}
@@ -128,18 +112,12 @@ const Signup = () => {
                         onChange={handleChange}
                         style={{ borderColor: "#57008E" }}
                       />
-                      {errors.password && (
-                        <div className="invalid-feedback">{errors.password}</div>
-                      )}
+                      {errors.password && <div className="invalid-feedback">{errors.password}</div>}
                     </div>
                     <button
                       type="submit"
                       className="btn w-100"
-                      style={{
-                        backgroundColor: "#57008E",
-                        color: "#fff",
-                        borderColor: "#57008E",
-                      }}
+                      style={{ backgroundColor: "#57008E", color: "#fff", borderColor: "#57008E" }}
                       disabled={loading}
                     >
                       {loading ? "Loading..." : "Register"}
@@ -147,9 +125,7 @@ const Signup = () => {
                   </form>
                   <p className="text-center mt-3" style={{ color: "#57008E" }}>
                     Already have an account?{" "}
-                    <a href="/login" style={{ color: "#57008E", fontWeight: "bold" }}>
-                      Login
-                    </a>
+                    <a href="/login" style={{ color: "#57008E", fontWeight: "bold" }}>Login</a>
                   </p>
                 </>
               )}
