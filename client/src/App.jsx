@@ -11,12 +11,13 @@ function App() {
         <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="*" element={<h2>Page Not Found</h2>} />
+        <Route
+          path="*"
+          element={<h2 className="text-center">Page Not Found</h2>}
+        />
       </Routes>
     </BrowserRouter>
   );
 }
 
 export default App;
-
-

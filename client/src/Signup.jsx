@@ -7,9 +7,9 @@ const Signup = () => {
     email: "",
     password: "",
   });
-
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,16 +38,29 @@ const Signup = () => {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      setSubmitted(true);
-      const response = await fetch("http://localhost:3001/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await response.json();
-      console.log(data);
+      setLoading(true);
+      try {
+        const response = await fetch("http://localhost:3001/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+          console.log(data);
+          setSubmitted(true);
+        } else {
+          setErrors({ api: data.message || "Signup failed" });
+        }
+      } catch (error) {
+        console.error(error);
+        setErrors({ api: "An error occurred, please try again." });
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -68,6 +81,9 @@ const Signup = () => {
                     Register
                   </h2>
                   <form onSubmit={handleSubmit}>
+                    {errors.api && (
+                      <div className="alert alert-danger">{errors.api}</div>
+                    )}
                     <div className="form-group mb-3">
                       <label htmlFor="username" style={{ color: "#57008E" }}>
                         Username
@@ -149,8 +165,9 @@ const Signup = () => {
                         color: "#fff",
                         borderColor: "#57008E",
                       }}
+                      disabled={loading}
                     >
-                      Register
+                      {loading ? "Loading..." : "Register"}
                     </button>
                   </form>
                   <p className="text-center mt-3" style={{ color: "#57008E" }}>

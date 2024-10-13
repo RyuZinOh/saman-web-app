@@ -6,9 +6,9 @@ const Login = () => {
     email: "",
     password: "",
   });
-
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -34,22 +34,29 @@ const Login = () => {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      const response = await fetch("http://localhost:3001/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      
-      if (response.ok) {
-        setSubmitted(true);
-        const data = await response.json();
-        console.log(data);
-      } else {
-        const data = await response.json();
-        console.error(data);
-        alert(data.message || "Login failed");
+      setLoading(true);
+      try {
+        const response = await fetch("http://localhost:3001/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setSubmitted(true);
+        } else {
+          const data = await response.json();
+          setErrors({ api: data.message || "Login failed" });
+        }
+      } catch (error) {
+        console.error(error);
+        setErrors({ api: "An error occurred, please try again." });
+      } finally {
+        setLoading(false);
       }
     }
   };
@@ -58,7 +65,10 @@ const Login = () => {
     <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-md-6">
-          <div className="card" style={{ backgroundColor: "#fff", borderColor: "#57008E" }}>
+          <div
+            className="card"
+            style={{ backgroundColor: "#fff", borderColor: "#57008E" }}
+          >
             <div className="card-body">
               {submitted ? (
                 <h2 className="text-success text-center">Login successful!</h2>
@@ -68,20 +78,31 @@ const Login = () => {
                     Login
                   </h2>
                   <form onSubmit={handleSubmit}>
+                    {errors.api && (
+                      <div className="alert alert-danger">{errors.api}</div>
+                    )}
                     <div className="form-group mb-3">
                       <label htmlFor="email" style={{ color: "#57008E" }}>
                         Email
                       </label>
                       <input
                         type="email"
-                        className={`form-control ${errors.email ? "is-invalid" : ""}`}
+                        className={`form-control ${
+                          errors.email ? "is-invalid" : ""
+                        }`}
                         id="email"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        style={{ backgroundColor: "#fff", color: "#000", borderColor: "#57008E" }}
+                        style={{
+                          backgroundColor: "#fff",
+                          color: "#000",
+                          borderColor: "#57008E",
+                        }}
                       />
-                      {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+                      {errors.email && (
+                        <div className="invalid-feedback">{errors.email}</div>
+                      )}
                     </div>
                     <div className="form-group mb-3">
                       <label htmlFor="password" style={{ color: "#57008E" }}>
@@ -89,26 +110,44 @@ const Login = () => {
                       </label>
                       <input
                         type="password"
-                        className={`form-control ${errors.password ? "is-invalid" : ""}`}
+                        className={`form-control ${
+                          errors.password ? "is-invalid" : ""
+                        }`}
                         id="password"
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
-                        style={{ backgroundColor: "#fff", color: "#000", borderColor: "#57008E" }}
+                        style={{
+                          backgroundColor: "#fff",
+                          color: "#000",
+                          borderColor: "#57008E",
+                        }}
                       />
-                      {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+                      {errors.password && (
+                        <div className="invalid-feedback">
+                          {errors.password}
+                        </div>
+                      )}
                     </div>
                     <button
                       type="submit"
                       className="btn w-100"
-                      style={{ backgroundColor: "#57008E", color: "#fff", borderColor: "#57008E" }}
+                      style={{
+                        backgroundColor: "#57008E",
+                        color: "#fff",
+                        borderColor: "#57008E",
+                      }}
+                      disabled={loading}
                     >
-                      Login
+                      {loading ? "Loading..." : "Login"}
                     </button>
                   </form>
                   <p className="text-center mt-3" style={{ color: "#57008E" }}>
-                    Dont have an account?{" "}
-                    <a href="/signup" style={{ color: "#57008E", fontWeight: "bold" }}>
+                    Don't have an account?{" "}
+                    <a
+                      href="/signup"
+                      style={{ color: "#57008E", fontWeight: "bold" }}
+                    >
                       Register
                     </a>
                   </p>
