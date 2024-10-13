@@ -40,7 +40,7 @@ const Login = () => {
 
         const data = await response.json();
         if (response.ok) {
-          // Handle successful login
+        window.alert("login success lil bro")
         } else {
           setErrors({ api: data.message || "Login failed" });
         }
