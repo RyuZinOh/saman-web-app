@@ -46,12 +46,14 @@ const Login = () => {
 
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
           setSubmitted(true);
         } else {
           const data = await response.json();
           setErrors({ api: data.message || "Login failed" });
         }
       } catch (error) {
+        console.error(error);
         setErrors({ api: "An error occurred, please try again." });
       } finally {
         setLoading(false);
@@ -71,7 +73,9 @@ const Login = () => {
                 <>
                   <h2 className="text-center mb-4" style={{ color: "#57008E" }}>Login</h2>
                   <form onSubmit={handleSubmit}>
-                    {errors.api && <div className="alert alert-danger">{errors.api}</div>}
+                    {errors.api && (
+                      <div className="alert alert-danger">{errors.api}</div>
+                    )}
                     <div className="form-group mb-3">
                       <label htmlFor="email" style={{ color: "#57008E" }}>Email</label>
                       <input
@@ -83,7 +87,9 @@ const Login = () => {
                         onChange={handleChange}
                         style={{ backgroundColor: "#fff", color: "#000", borderColor: "#57008E" }}
                       />
-                      {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+                      {errors.email && (
+                        <div className="invalid-feedback">{errors.email}</div>
+                      )}
                     </div>
                     <div className="form-group mb-3">
                       <label htmlFor="password" style={{ color: "#57008E" }}>Password</label>
@@ -96,7 +102,9 @@ const Login = () => {
                         onChange={handleChange}
                         style={{ backgroundColor: "#fff", color: "#000", borderColor: "#57008E" }}
                       />
-                      {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+                      {errors.password && (
+                        <div className="invalid-feedback">{errors.password}</div>
+                      )}
                     </div>
                     <button
                       type="submit"
