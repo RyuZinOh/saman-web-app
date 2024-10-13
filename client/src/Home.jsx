@@ -1,21 +1,13 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Home = () => {
-  const navigate = useNavigate();
-
-  const handleLoginClick = () => {
-    navigate("/login");
-  };
-
   return (
-    <div className="container mt-5">
-      <h1 className="text-center">Welcome to Our App</h1>
-      <div className="text-center">
-        <button className="btn btn-primary" onClick={handleLoginClick}>
-          Login
-        </button>
-      </div>
+    <div className="container mt-5 text-center">
+      <h1>Welcome to the App</h1>
+      <Link to="/login" className="btn btn-primary mt-3">
+        Login
+      </Link>
     </div>
   );
 };

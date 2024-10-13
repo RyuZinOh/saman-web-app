@@ -1,6 +1,7 @@
 ```
 
 /portfolio
+============
 ├── /client                  
 │   ├── /public
 │   ├── /src
@@ -9,6 +10,8 @@
 │   │   ├── App.js
 │   │   └── main.jsx
 │   ├── package.json
+│   ├── vercel.json
+==============================
 └── /server                  
     ├── index.js
     ├── /models

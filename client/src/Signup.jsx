@@ -56,7 +56,6 @@ const Signup = () => {
           setErrors({ api: data.message || "Signup failed" });
         }
       } catch (error) {
-        console.error(error);
         setErrors({ api: "An error occurred, please try again." });
       } finally {
         setLoading(false);
@@ -94,11 +93,7 @@ const Signup = () => {
                         name="username"
                         value={formData.username}
                         onChange={handleChange}
-                        style={{
-                          backgroundColor: "#fff",
-                          color: "#000",
-                          borderColor: "#57008E",
-                        }}
+                        style={{ borderColor: "#57008E" }}
                       />
                       {errors.username && (
                         <div className="invalid-feedback">
@@ -119,11 +114,7 @@ const Signup = () => {
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        style={{
-                          backgroundColor: "#fff",
-                          color: "#000",
-                          borderColor: "#57008E",
-                        }}
+                        style={{ borderColor: "#57008E" }}
                       />
                       {errors.email && (
                         <div className="invalid-feedback">{errors.email}</div>
@@ -142,11 +133,7 @@ const Signup = () => {
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
-                        style={{
-                          backgroundColor: "#fff",
-                          color: "#000",
-                          borderColor: "#57008E",
-                        }}
+                        style={{ borderColor: "#57008E" }}
                       />
                       {errors.password && (
                         <div className="invalid-feedback">
